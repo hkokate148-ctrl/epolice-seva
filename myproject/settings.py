@@ -144,6 +144,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = "hkokate148@gmail.com"
-EMAIL_HOST_PASSWORD = "lwkk mixh gchx vrbw"
+EMAIL_HOST_PASSWORD = "dftt tyry gchx fjls"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
