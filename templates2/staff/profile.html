@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}
+Staff Profile -
+{% endblock %}
+
+{% block body %}
+
+<style>
+    .profile-page {
+        min-height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 15px;
+    }
+
+    .profile-card {
+        width: 450px;
+        max-width: 100%;
+        background: white;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .profile-icon {
+        text-align: center;
+        font-size: 60px;
+    }
+
+    .profile-title {
+        text-align: center;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .profile-subtitle {
+        text-align: center;
+        color: #6c757d;
+        margin-bottom: 25px;
+    }
+
+    .profile-item {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .profile-label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .profile-value {
+        color: #222;
+        margin-top: 3px;
+        word-break: break-word;
+    }
+
+    .staff-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        background: #cfe2ff;
+        color: #084298;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .profile-button {
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        background: #0d6efd;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 25px;
+    }
+
+    .profile-button:hover {
+        background: #0b5ed7;
+        color: white;
+    }
+</style>
+
+
+<div class="profile-page">
+
+    <div class="profile-card">
+
+        <div class="profile-icon">
+            👮
+        </div>
+
+        <h3 class="profile-title">
+            Staff Profile
+        </h3>
+
+        <p class="profile-subtitle">
+            ePolice Seva Staff Portal
+        </p>
+
+
+        <div class="profile-item">
+            <div class="profile-label">Username</div>
+            <div class="profile-value">
+                {{ request.user.username }}
+            </div>
+        </div>
+
+
+        <div class="profile-item">
+            <div class="profile-label">Name</div>
+            <div class="profile-value">
+                {{ request.user.first_name }}
+            </div>
+        </div>
+
+
+        <div class="profile-item">
+            <div class="profile-label">Email</div>
+            <div class="profile-value">
+                {{ request.user.email }}
+            </div>
+        </div>
+
+
+        <div class="profile-item">
+            <div class="profile-label">Account Type</div>
+            <div class="profile-value">
+                <span class="staff-badge">
+                    👮 Staff
+                </span>
+            </div>
+        </div>
+
+
+        <div class="profile-item">
+            <div class="profile-label">Staff Status</div>
+            <div class="profile-value">
+                <span class="staff-badge">
+                    Authorized Staff
+                </span>
+            </div>
+        </div>
+
+
+        <a href="/" class="profile-button">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock body %}

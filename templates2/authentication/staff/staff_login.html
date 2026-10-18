@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Staff Login - {% endblock %}
+
+{% block body %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 75vh;">
+
+    <div class="card shadow p-4" style="width: 400px;">
+
+        <div class="text-center mb-4">
+            <div style="font-size: 45px;">👮</div>
+            <h3 class="fw-bold">Staff Login</h3>
+            <p class="text-muted mb-0">
+                ePolice Seva Staff Portal
+            </p>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" style="
+            width: 85%;
+            margin: 15px auto;
+            padding: 10px;
+            border-radius: 8px;
+            color: #842029;
+            background-color: #f8d7da;
+            border: 1px solid #f5c2c7;
+            font-size: 14px;
+        ">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="login-option">
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Username
+                    </label>
+
+                    <input type="text" name="username" class="form-control" placeholder="Enter staff username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Password
+                    </label>
+
+                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    🔐 Staff Login
+                </button>
+
+            </form>
+
+            <div class="text-center mt-3">
+                <a href="/login" class="text-decoration-none">
+                    Citizen Login
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    {% endblock body %}

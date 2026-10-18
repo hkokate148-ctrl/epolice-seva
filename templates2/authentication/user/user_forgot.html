@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Forgot Password - ePolice Seva</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #0a1f44;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .forgot-box {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .forgot-box h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0a1f44;
+        }
+
+        .forgot-box p {
+            text-align: center;
+            color: #666;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="forgot-box">
+
+        <h2>🔐 Forgot Password</h2>
+
+        <p>
+            Enter your registered email address to reset your password.
+        </p>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'user_forgot' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+
+                <input type="email" name="email" class="form-control" placeholder="Enter your registered email"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Send OTP
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'user_login' %}">
+                ← Back to Login
+            </a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

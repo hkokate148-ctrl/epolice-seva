@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff - Complaints</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+
+        .navbar {
+            background: #0a1f44;
+        }
+
+        .page-title {
+            color: #0a1f44;
+            font-weight: 700;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .table th {
+            background: #0a1f44;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .view-btn {
+            background: #0a1f44;
+            color: white;
+            border: none;
+        }
+
+        .view-btn:hover {
+            background: #12366f;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <div class="mb-3">
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4" onclick="history.back()">
+                    ← Back
+                </button>
+            </div>
+            <span class="navbar-brand fw-bold">
+                🛡️ ePolice Seva — Staff
+            </span>
+
+            <a href="/logout" class="btn btn-outline-light">
+                Logout
+            </a>
+        </div>
+    </nav>
+
+
+    <div class="container py-5">
+
+        <h2 class="page-title mb-4">
+            📋 All Complaints
+        </h2>
+
+        <div class="table-container">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle text-center">
+
+                    <thead>
+                        <tr>
+                            <th>Complaint ID</th>
+                            <th>Name</th>
+                            <th>Complaint Type</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for complaint in complaints %} # isse data aa raha hai views me se
+
+                        <tr>
+
+                            <td>
+                                <strong>{{ complaint.complaint_id }}</strong>
+                            </td>
+
+                            <td>
+                                {{ complaint.name }} <!--Model  complain() se name aa raha hai or ye baki sab.-->
+                            </td>
+
+                            <td>
+                                {{ complaint.get_complain_type_display }}
+                            </td>
+
+                            <td>
+                                {{ complaint.incident_date }}
+                            </td>
+
+                            <td>
+                                <span class="badge bg-primary">
+                                    {{ complaint.status }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <a href="{% url 'complaint_detail' complaint.complaint_id %}"
+                                    class="btn btn-sm view-btn">
+                                    👁️ View
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="6">
+                                No complaints found.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

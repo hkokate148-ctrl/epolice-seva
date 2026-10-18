@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register -
+{% endblock %}
+
+{% block body %}
+
+<style>
+    .register-page {
+        min-height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 15px;
+    }
+
+    .register-card {
+        width: 400px;
+        max-width: 100%;
+        background: white;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .register-icon {
+        font-size: 45px;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .register-title {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .register-subtitle {
+        text-align: center;
+        color: #6c757d;
+        margin-bottom: 25px;
+    }
+
+    .register-label {
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .register-input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .register-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+    }
+
+    .error {
+        display: block;
+        min-height: 18px;
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    .message-box {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 18px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: #842029;
+        background-color: #f8d7da;
+        border: 1px solid #f5c2c7;
+        font-size: 14px;
+    }
+
+    .success-message {
+        color: #0f5132;
+        background-color: #d1e7dd;
+        border-color: #badbcc;
+    }
+
+    .register-button {
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        padding: 11px;
+        background-color: #0d6efd;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 8px;
+    }
+
+    .register-button:hover {
+        background-color: #0b5ed7;
+    }
+
+    .register-links {
+        text-align: center;
+        margin-top: 18px;
+    }
+
+    .register-links a {
+        text-decoration: none;
+        color: #0d6efd;
+        margin: 0 10px;
+    }
+
+    .register-links a:hover {
+        text-decoration: underline;
+    }
+
+    @media screen and (max-width: 500px) {
+        .register-page {
+            padding: 25px 15px;
+        }
+
+        .register-card {
+            padding: 25px 20px;
+        }
+    }
+</style>
+
+
+<div class="register-page">
+
+    <div class="register-card">
+
+        <!-- Icon -->
+        <div class="register-icon">
+            📝
+        </div>
+
+        <!-- Heading -->
+        <h3 class="register-title">
+            Citizen Registration
+        </h3>
+
+        <p class="register-subtitle">
+            Create your ePolice Seva account
+        </p>
+
+
+        <!-- Django Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="message-box
+                    {% if message.tags == 'success' %}
+                        success-message
+                    {% endif %}
+                ">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+
+        <!-- Register Form -->
+        <form id="registerform" method="POST" action="{% url 'user_register' %}" novalidate>
+
+            {% csrf_token %}
+
+            <!-- Name -->
+            <div class="mb-3">
+
+                <label class="register-label">
+                    Unique Name
+                </label>
+
+                <input type="text" id="firstName" name="firstName" class="register-input" placeholder="Enter your name">
+
+                <span id="firstNameError" class="error"></span>
+
+            </div>
+
+
+            <!-- Email -->
+            <div class="mb-3">
+
+                <label class="register-label">
+                    Valid Email ID
+                </label>
+
+                <input type="email" id="email" name="email" class="register-input" placeholder="Enter your email">
+
+                <span id="emailError" class="error"></span>
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="mb-3">
+
+                <label class="register-label">
+                    Password
+                </label>
+
+                <input type="password" id="password" name="password" class="register-input"
+                    placeholder="Enter password">
+
+                <span id="passwordError" class="error"></span>
+
+            </div>
+
+
+            <!-- Register Button -->
+            <button type="submit" id="submit" class="register-button">
+                📝 Create Account
+            </button>
+
+        </form>
+
+
+        <!-- Links -->
+        <div class="register-links">
+
+            <a href="{% url 'user_forgot' %}"> Forgot Password?
+            </a>
+
+            <a href="{% url 'user_login' %}"> Login
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    document.getElementById("registerform").addEventListener("submit", function (event) {
+
+        document.getElementById("firstNameError").innerHTML = "";
+        document.getElementById("emailError").innerHTML = "";
+        document.getElementById("passwordError").innerHTML = "";
+
+        let firstName = document.getElementById("firstName").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let password = document.getElementById("password").value;
+
+        let valid = true;
+
+
+        // Name validation
+        if (firstName === "") {
+
+            document.getElementById("firstNameError").innerHTML =
+                "Name is required";
+
+            valid = false;
+        }
+
+
+        // Email validation
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (email === "") {
+
+            document.getElementById("emailError").innerHTML =
+                "Email is required";
+
+            valid = false;
+
+        } else if (!emailPattern.test(email)) {
+
+            document.getElementById("emailError").innerHTML =
+                "Enter a valid email";
+
+            valid = false;
+        }
+
+
+        // Password validation
+        if (password === "") {
+
+            document.getElementById("passwordError").innerHTML =
+                "Password is required";
+
+            valid = false;
+
+        } else if (password.length < 8) {
+
+            document.getElementById("passwordError").innerHTML =
+                "Password must be at least 8 characters";
+
+            valid = false;
+        }
+
+
+        // Validation fail
+        if (!valid) {
+            event.preventDefault();
+        }
+
+    });
+
+</script>
+
+{% endblock body %}

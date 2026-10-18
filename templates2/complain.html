@@ -1,0 +1,672 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Complaint - ePolice Seva
+{% endblock %}
+
+{% block body %}
+
+<style>
+    .complaint-page {
+        background: #f5f8fc;
+        min-height: 85vh;
+        padding: 45px 15px;
+    }
+
+    .complaint-container {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .complaint-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .complaint-header h1 {
+        color: #0a1f44;
+        font-weight: 700;
+    }
+
+    .complaint-header p {
+        color: #6c757d;
+    }
+
+    .complaint-card {
+        background: white;
+        border-radius: 18px;
+        padding: 35px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #0a1f44;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 10px;
+        padding: 11px 13px;
+        border: 1px solid #ced4da;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+    }
+
+    textarea.form-control {
+        min-height: 140px;
+        resize: vertical;
+    }
+
+    .location-box {
+        background: #eef5ff;
+        border-radius: 12px;
+        padding: 15px;
+        margin-top: 10px;
+    }
+
+    .location-box button {
+        border-radius: 20px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 25px;
+        background: #0a1f44;
+        color: white;
+        font-weight: 700;
+        transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: #0d6efd;
+        transform: translateY(-2px);
+    }
+
+    .important-note {
+        background: #fff3cd;
+        border-left: 5px solid #ffc107;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        color: #664d03;
+    }
+
+    .required {
+        color: #dc3545;
+    }
+
+    .error {
+        color: red;
+        font-size: 14px;
+        display: block;
+        margin-top: 4px;
+    }
+
+    @media (max-width: 576px) {
+
+        .complaint-page {
+            padding: 25px 12px;
+        }
+
+        .complaint-card {
+            padding: 22px 18px;
+        }
+
+        .complaint-header h1 {
+            font-size: 28px;
+        }
+    }
+</style>
+<!-- Message requests -->
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="complaint-page">
+
+    <div class="complaint-container">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="complaint-header">
+
+            <h1>📝 File a Complaint</h1>
+
+            <p>
+                Submit your complaint securely through ePolice Seva.
+            </p>
+            <p style="color:red">
+                ⚠️ Before Submit The Complain Read Every Rules. ⚠️
+            </p>
+
+        </div>
+
+
+        <!-- ================= FORM CARD ================= -->
+
+        <div class="complaint-card">
+
+
+
+
+            <form method="POST" action="/complain" enctype="multipart/form-data">
+                {% csrf_token %}
+
+
+                <!-- NAME -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Full Name <span class="required">*</span>
+                    </label>
+
+                    <input type="text" name="name" class="form-control" placeholder="Enter your full name">
+                    <small id="nameError" class="error"></small>
+
+                </div>
+
+
+                <!-- EMAIL + PHONE -->
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email">
+                        <small id="emailError" class="error"></small>
+                        <small class="text-muted">
+                            Optional: Get email fastly provide complain information.
+                        </small>
+                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Phone Number <span class="required">*</span>
+                        </label>
+
+                        <input type="tel" name="phone" class="form-control" placeholder="Enter phone number"
+                            pattern="[0-9]{10}" maxlength="10">
+                        <small id="phoneError" class="error"></small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMPLAINT TYPE -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Complaint Type <span class="required">*</span>
+                    </label>
+
+                    <select name="complaint_type" class="form-select">
+
+                        <option value="">
+                            Select complaint type
+                        </option>
+
+                        <option value="Theft">
+                            Theft
+                        </option>
+
+                        <option value="Fraud">
+                            Fraud
+                        </option>
+
+                        <option value="Cyber Crime">
+                            Cyber Crime
+                        </option>
+
+                        <option value="Harassment">
+                            Harassment
+                        </option>
+
+                        <option value="Missing Person">
+                            Missing Person
+                        </option>
+
+                        <option value="Property Dispute">
+                            Property Dispute
+                        </option>
+
+                        <option value="Traffic">
+                            Traffic Related
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+                    <small id="complaintTypeError" class="error"></small>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Incident Location <span class="required">*</span>
+                    </label>
+
+                    <input type="text" id="incidentLocation" name="location" class="form-control"
+                        placeholder="Enter incident location">
+                    <small id="locationError" class="error"></small>
+
+
+                    <div class="location-box">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center
+                                    flex-wrap
+                                    gap-2">
+
+                            <span>
+                                📍 Use your current location
+                            </span>
+
+                            <button type="button" class="btn btn-sm btn-primary" onclick="getComplaintLocation()">
+
+                                Detect Location
+
+                            </button>
+
+                        </div>
+
+                        <small id="locationStatus" class="text-muted">
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Incident Date <span class="required">*</span>
+                    </label>
+
+                    <input type="date" name="incident_date" class="form-control">
+                    <small id="incidentDateError" class="error"></small>
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Complaint Description <span class="required">*</span>
+                    </label>
+
+                    <textarea name="description" class="form-control" placeholder="Describe what happened in detail..."
+                        minlength="10"></textarea>
+                    <small id="descriptionError" class="error"></small>
+
+                    <small class="text-muted">
+                        Please provide clear and accurate information.
+                    </small>
+
+                </div>
+
+
+                <!-- EVIDENCE -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Supporting Evidence
+                    </label>
+
+                    <input type="file" name="evidence" class="form-control" accept="image/*,.pdf">
+                    <small id="evidenceError" class="error"></small>
+
+                    <small class="text-muted">
+                        Optional: Upload an image or PDF document.
+                    </small>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button type="submit" class="submit-btn">
+
+                    🚔 Submit Complaint
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+        <!-- ⚠️ Important Points -->
+
+        <div class="alert alert-warning shadow-sm mt-4" style="border-radius: 15px;">
+
+            <h5 class="fw-bold mb-3">
+                ⚠️ Important Points
+            </h5>
+
+            <ol class="mb-0">
+
+                <li class="mb-2">
+                    Please provide <strong>correct, complete, and truthful
+                        information</strong> while submitting your complaint.
+                </li>
+
+                <li class="mb-2">
+                    If any evidence is <strong>generated, edited, enhanced,
+                        or modified using Artificial Intelligence (AI)</strong>
+                    or another editing tool, please clearly disclose this.
+                </li>
+
+                <li class="mb-2">
+                    Do not submit <strong>false, misleading, fabricated,
+                        or manipulated</strong> information or evidence.
+                </li>
+
+                <li class="mb-2">
+                    Upload only evidence that is
+                    <strong>relevant to your complaint</strong>.
+                </li>
+
+                <li class="mb-2">
+                    Do not upload unnecessary personal information or
+                    documents belonging to other people.
+                </li>
+
+                <li class="mb-2">
+                    Please check all the information carefully before
+                    submitting your complaint.
+                </li>
+
+                <li class="mb-2">
+                    Submitting a complaint does <strong>not automatically
+                        mean that an FIR or legal case has been registered</strong>.
+                </li>
+
+                <li class="mb-2">
+                    For an <strong>immediate emergency</strong>, contact the
+                    appropriate official emergency service directly.
+                </li>
+
+                <li class="mb-2">
+                    Keep your complaint details or reference information
+                    safely for future use.
+                </li>
+
+                <li>
+                    Misuse of the complaint system, including knowingly
+                    submitting false information, may have legal consequences
+                    under applicable law.
+                </li>
+
+            </ol>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ================= LOCATION SCRIPT ================= -->
+
+<script>
+
+    function getComplaintLocation() {
+
+        const locationInput =
+            document.getElementById("incidentLocation");
+
+        const status =
+            document.getElementById("locationStatus");
+
+
+        if (!navigator.geolocation) {
+
+            status.innerHTML =
+                "❌ Geolocation is not supported by your browser.";
+
+            return;
+
+        }
+
+
+        status.innerHTML =
+            "📍 Detecting your location...";
+
+
+        navigator.geolocation.getCurrentPosition(
+
+            async function (position) {
+
+                const lat =
+                    position.coords.latitude;
+
+                const lon =
+                    position.coords.longitude;
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    const address =
+                        data.address || {};
+
+
+                    const area =
+                        address.suburb ||
+                        address.neighbourhood ||
+                        address.village ||
+                        address.town ||
+                        address.city ||
+                        "";
+
+
+                    const district =
+                        address.state_district ||
+                        address.county ||
+                        "";
+
+
+                    const state =
+                        address.state ||
+                        "";
+
+
+                    const location =
+                        [area, district, state]
+                            .filter(Boolean)
+                            .join(", ");
+
+
+                    locationInput.value =
+                        location ||
+                        `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+
+
+                    status.innerHTML =
+                        "✅ Location detected successfully.";
+
+                }
+
+                catch (error) {
+
+                    locationInput.value =
+                        `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+
+                    status.innerHTML =
+                        "⚠️ Coordinates detected.";
+
+                }
+
+            },
+
+
+            function (error) {
+
+                if (error.code === 1) {
+
+                    status.innerHTML =
+                        "❌ Location permission denied.";
+
+                }
+
+                else if (error.code === 2) {
+
+                    status.innerHTML =
+                        "❌ Location unavailable.";
+
+                }
+
+                else if (error.code === 3) {
+
+                    status.innerHTML =
+                        "⏳ Location request timed out.";
+
+                }
+
+                else {
+
+                    status.innerHTML =
+                        "❌ Unable to detect location.";
+
+                }
+
+            },
+
+
+            {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                maximumAge: 0
+            }
+
+        );
+
+    }
+
+    // Error for javascripts
+    document.querySelector("form").addEventListener("submit", function (event) {
+
+        let valid = true;
+
+        // Purane errors clear
+        document.querySelectorAll(".error").forEach(function (error) {
+            error.innerHTML = "";
+        });
+
+        // Fields ko name se select karo
+        let name = document.querySelector('[name="name"]');
+        let email = document.querySelector('[name="email"]');
+        let phone = document.querySelector('[name="phone"]');
+        let complaintType = document.querySelector('[name="complaint_type"]');
+        let location = document.querySelector('[name="location"]');
+        let incidentDate = document.querySelector('[name="incident_date"]');
+        let description = document.querySelector('[name="description"]');
+
+
+        // Name
+        if (name.value.trim() === "") {
+            document.getElementById("nameError").innerHTML =
+                "⚠️ Name is required.";
+            valid = false;
+        }
+
+
+        // Email - optional hai, isliye empty allowed
+
+
+        // Phone
+        if (phone.value.trim() === "") {
+            document.getElementById("phoneError").innerHTML =
+                "📱 Phone number is required.";
+            valid = false;
+        }
+        else if (!/^[0-9]{10}$/.test(phone.value)) {
+            document.getElementById("phoneError").innerHTML =
+                "📱 Phone number must be 10 digits.";
+            valid = false;
+        }
+
+
+        // Complaint Type
+        if (complaintType.value === "") {
+            document.getElementById("complaintTypeError").innerHTML =
+                "🤷 Please select complaint type.";
+            valid = false;
+        }
+
+
+        // Location
+        if (location.value.trim() === "") {
+            document.getElementById("locationError").innerHTML =
+                "❓Incident location is required.";
+            valid = false;
+        }
+
+
+        // Incident Date
+        if (incidentDate.value === "") {
+            document.getElementById("incidentDateError").innerHTML =
+                "📅 Incident date is required.";
+            valid = false;
+        }
+
+
+        // Description
+        if (description.value.trim() === "") {
+            document.getElementById("descriptionError").innerHTML =
+                "📝 Complaint description is required.";
+            valid = false;
+        }
+
+
+        // Agar koi error hai to form submit mat karo
+        if (!valid) {
+            event.preventDefault();
+        }
+
+    });
+</script>
+
+{% endblock body %}

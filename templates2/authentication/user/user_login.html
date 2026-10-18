@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Citizen Login -
+{% endblock %}
+
+{% block body %}
+
+<style>
+    .login-page {
+        min-height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 15px;
+    }
+
+    .login-card {
+        width: 400px;
+        max-width: 100%;
+        background: white;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .login-icon {
+        font-size: 45px;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .login-title {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .login-subtitle {
+        text-align: center;
+        color: #6c757d;
+        margin-bottom: 25px;
+    }
+
+    .login-label {
+        font-weight: 600;
+        margin-bottom: 7px;
+        display: block;
+    }
+
+    .login-input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .login-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+    }
+
+    .password-box {
+        position: relative;
+    }
+
+    .password-box .login-input {
+        padding-right: 45px;
+    }
+
+    #togglePassword {
+        position: absolute;
+        right: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 18px;
+        user-select: none;
+    }
+
+    .error {
+        display: block;
+        min-height: 18px;
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    .message-box {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 18px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: #842029;
+        background-color: #f8d7da;
+        border: 1px solid #f5c2c7;
+        font-size: 14px;
+    }
+
+    .login-button {
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        padding: 11px;
+        background-color: #0d6efd;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 8px;
+    }
+
+    .login-button:hover {
+        background-color: #0b5ed7;
+    }
+
+    .login-links {
+        text-align: center;
+        margin-top: 18px;
+    }
+
+    .login-links a {
+        text-decoration: none;
+        color: #0d6efd;
+        margin: 0 10px;
+    }
+
+    .login-links a:hover {
+        text-decoration: underline;
+    }
+
+    @media screen and (max-width: 500px) {
+        .login-page {
+            padding: 25px 15px;
+        }
+
+        .login-card {
+            padding: 25px 20px;
+        }
+    }
+</style>
+
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <!-- Icon -->
+        <div class="login-icon">
+            👤
+        </div>
+
+        <!-- Heading -->
+        <h3 class="login-title">
+            Citizen Login
+        </h3>
+
+        <p class="login-subtitle">
+            ePolice Seva Citizen Portal
+        </p>
+
+
+        <!-- Django Messages -->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="message-box">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+
+        <!-- Login Form -->
+        <form id="loginform" method="POST" action="{% url 'user_login' %}" novalidate>
+            {% csrf_token %}
+
+            <!-- Username / Email -->
+            <div class="mb-3">
+
+                <label class="login-label">
+                    Username or Email
+                </label>
+
+                <input type="text" id="username" name="username" class="login-input"
+                    placeholder="Enter username or email">
+
+                <span id="usernameError" class="error"></span>
+
+            </div>
+
+
+            <!-- Password -->
+            <div class="mb-3">
+
+                <label class="login-label">
+                    Password
+                </label>
+
+                <div class="password-box">
+
+                    <input type="password" id="password" name="password" class="login-input"
+                        placeholder="Enter password">
+
+                    <span id="togglePassword">👁️</span>
+
+                </div>
+
+                <span id="passwordError" class="error"></span>
+
+            </div>
+
+
+            <!-- Login Button -->
+            <button type="submit" id="submit" class="login-button">
+
+                🔐 Citizen Login
+
+            </button>
+
+        </form>
+
+
+        <!-- Links -->
+        <div class="login-links">
+
+            <a href="{% url 'user_forgot' %}">
+                Forgot Password?
+            </a>
+
+            <a href="{% url 'user_register' %}">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // Form Validation
+    document.getElementById("loginform").addEventListener("submit", function (event) {
+
+        document.getElementById("usernameError").innerHTML = "";
+        document.getElementById("passwordError").innerHTML = "";
+
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        let valid = true;
+
+
+        if (username.trim() === "") {
+
+            document.getElementById("usernameError").innerHTML =
+                "Username or Email is required";
+
+            valid = false;
+        }
+
+
+        if (password.trim() === "") {
+
+            document.getElementById("passwordError").innerHTML =
+                "Password is required";
+
+            valid = false;
+        }
+
+
+        if (!valid) {
+            event.preventDefault();
+        }
+
+    });
+
+
+    // Show / Hide Password
+    const password = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+
+    togglePassword.addEventListener("click", function () {
+
+        if (password.type === "password") {
+
+            password.type = "text";
+            this.textContent = "🙈";
+
+        } else {
+
+            password.type = "password";
+            this.textContent = "👁️";
+
+        }
+
+    });
+
+</script>
+
+{% endblock body %}

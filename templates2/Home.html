@@ -1,0 +1,1331 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<!-- ================= BOOTSTRAP CSS ================= -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+    /* ================= HERO CAROUSEL ================= */
+
+    .hero-img {
+        height: 500px;
+        object-fit: cover;
+    }
+
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.60);
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .carousel-caption h5 {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .carousel-caption p {
+        font-size: 17px;
+    }
+
+
+    /* ================= QUICK SERVICES ================= */
+
+    .services-section {
+        padding: 55px 0;
+        background: #f5f8fc;
+    }
+
+    .section-title {
+        text-align: center;
+        font-weight: 700;
+        color: #0a1f44;
+        margin-bottom: 10px;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        color: #6c757d;
+        margin-bottom: 35px;
+    }
+
+    .service-card {
+        height: 100%;
+        border: none;
+        border-radius: 16px;
+        padding: 25px 20px;
+        text-align: center;
+        background: white;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-icon {
+        width: 65px;
+        height: 65px;
+        margin: auto;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        background: #eaf2ff;
+    }
+
+    .service-card h5 {
+        margin-top: 18px;
+        font-weight: 700;
+        color: #0a1f44;
+    }
+
+    .service-card p {
+        color: #6c757d;
+        font-size: 14px;
+        min-height: 42px;
+    }
+
+
+    /* ================= EMERGENCY ================= */
+
+    .emergency-box {
+        margin: 35px auto;
+        max-width: 1100px;
+        padding: 30px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #8b0000, #dc3545);
+        color: white;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(220, 53, 69, 0.25);
+    }
+
+    .emergency-box h2 {
+        font-weight: 700;
+    }
+
+    .emergency-btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 12px 28px;
+        border-radius: 30px;
+        background: white;
+        color: #dc3545;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .emergency-btn:hover {
+        background: #0a1f44;
+        color: white;
+        transform: scale(1.05);
+    }
+
+
+    /* ================= LIVE LOCATION ================= */
+
+    .map-box {
+        margin-top: 25px;
+        margin-bottom: 35px;
+        background: linear-gradient(135deg, #0a1f44, #123d7a);
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .location-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .location-icon {
+        background: #0d6efd;
+        color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    #locationText {
+        font-size: 16px;
+        font-weight: 600;
+        color: white;
+        margin: 0;
+    }
+
+    #accuracyText {
+        color: #dbe9ff;
+        font-size: 13px;
+        margin-top: 8px;
+    }
+
+    #enableLocationBtn {
+        margin-top: 15px;
+        background: white;
+        color: #0a1f44;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    #enableLocationBtn:hover {
+        background: #0d6efd;
+        color: white;
+    }
+
+    #map {
+        width: 100%;
+        height: 330px;
+        border-radius: 12px;
+        margin-top: 18px;
+        display: none;
+    }
+
+
+    /* ================= AREA SERVICES ================= */
+
+    .area-section {
+        padding: 50px 0;
+    }
+
+    .area-card {
+        height: 100%;
+        border-radius: 16px;
+        padding: 25px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        transition: 0.3s;
+    }
+
+    .area-card:hover {
+        transform: translateY(-5px);
+        border-color: #0d6efd;
+    }
+
+    .area-icon {
+        font-size: 35px;
+        margin-bottom: 12px;
+    }
+
+    .area-card h5 {
+        font-weight: 700;
+        color: #0a1f44;
+    }
+
+    .area-card p {
+        color: #6c757d;
+    }
+
+
+    /* ================= INFO SECTION ================= */
+
+    .info-section {
+        background: #f5f8fc;
+        padding: 45px 0;
+    }
+
+    .info-box {
+        text-align: center;
+        padding: 25px;
+    }
+
+    .info-number {
+        font-size: 35px;
+        font-weight: 800;
+        color: #0d6efd;
+    }
+
+    .info-text {
+        color: #555;
+        font-weight: 600;
+    }
+
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 768px) {
+
+        .hero-img {
+            height: 280px;
+        }
+
+        .carousel-caption h5 {
+            font-size: 20px;
+        }
+
+        .carousel-caption p {
+            font-size: 13px;
+        }
+
+        .map-box {
+            padding: 18px;
+        }
+
+        #map {
+            height: 270px;
+        }
+
+        .emergency-box {
+            margin-left: 12px;
+            margin-right: 12px;
+            padding: 25px 15px;
+        }
+    }
+</style>
+
+
+<!-- ========================================================= -->
+<!-- HERO CAROUSEL -->
+<!-- ========================================================= -->
+
+<div class="container-fluid px-0">
+
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+
+        <!-- INDICATORS -->
+
+        <div class="carousel-indicators">
+
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active">
+            </button>
+
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1">
+            </button>
+
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2">
+            </button>
+
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3">
+            </button>
+
+        </div>
+
+
+        <!-- IMAGES -->
+
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+
+                <img src="{% static 'img/police_sliding1.png' %}" class="d-block w-100 hero-img"
+                    alt="Report Crime Online">
+
+                <div class="carousel-caption d-none d-md-block">
+
+                    <h5>👮 Report Crime Online</h5>
+
+                    <p>
+                        Fast & Easy Complaint System
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="carousel-item">
+
+                <img src="{% static 'img/police_sliding2.jpg' %}" class="d-block w-100 hero-img"
+                    alt="Digital Police System">
+
+                <div class="carousel-caption d-none d-md-block">
+
+                    <h5>🚔 Digital Police System</h5>
+
+                    <p>
+                        Secure & Reliable Police Services
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="carousel-item">
+
+                <img src="{% static 'img/police_sliding3.jpg' %}" class="d-block w-100 hero-img"
+                    alt="Court and Lawyer Help">
+
+                <div class="carousel-caption d-none d-md-block">
+
+                    <h5>⚖️ Court & Lawyer Help</h5>
+
+                    <p>
+                        Get Legal Support Easily
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="carousel-item">
+
+                <img src="{% static 'img/fast_car_sliding.jpg' %}" class="d-block w-100 hero-img"
+                    alt="Emergency Police Call">
+
+                <div class="carousel-caption d-none d-md-block">
+
+                    <h5>⚡ Emergency Police Call</h5>
+
+                    <p>
+                        Fast Response System
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTROLS -->
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+
+            <span class="carousel-control-prev-icon"></span>
+
+        </button>
+
+
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+
+            <span class="carousel-control-next-icon"></span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- QUICK SERVICES -->
+<!-- ========================================================= -->
+
+<section class="services-section">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Quick Police Services
+        </h2>
+
+        <p class="section-subtitle">
+            Access important ePolice Seva services quickly
+        </p>
+
+
+        <div class="row g-4">
+
+
+            <!-- Emergency -->
+
+            <div class="col-12 col-sm-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+                        🚨
+                    </div>
+
+                    <h5>
+                        Emergency
+                    </h5>
+
+                    <p>
+                        Request immediate police assistance.
+                    </p>
+
+                    <a href="/emergency" class="btn btn-danger rounded-pill px-4">
+                        Emergency
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Complaint -->
+
+            <div class="col-12 col-sm-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+                        📝
+                    </div>
+
+                    <h5>
+                        File Complaint
+                    </h5>
+
+                    <p>
+                        Submit your complaint online.
+                    </p>
+
+                    <a href="/complain" class="btn btn-primary rounded-pill px-4">
+                        Complaint
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Status -->
+
+            <div class="col-12 col-sm-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+                        🔎
+                    </div>
+
+                    <h5>
+                        Track Complaint
+                    </h5>
+
+                    <p>
+                        Check the current status of your complaint.
+                    </p>
+
+                    <a href="/status" class="btn btn-primary rounded-pill px-4">
+                        Check Status
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Court -->
+
+            <div class="col-12 col-sm-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+                        ⚖️
+                    </div>
+
+                    <h5>
+                        Court / Vakil
+                    </h5>
+
+                    <p>
+                        Find legal and court-related assistance.
+                    </p>
+
+                    <a href="/court" class="btn btn-primary rounded-pill px-4">
+                        Legal Help
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Location -->
+
+            <div class="col-12 col-sm-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+                        📍
+                    </div>
+
+                    <h5>
+                        Live Location
+                    </h5>
+
+                    <p>
+                        Use your location to identify your area.
+                    </p>
+
+                    <button onclick="document.getElementById('locationText').scrollIntoView({behavior:'smooth'})"
+                        class="btn btn-primary rounded-pill px-4">
+                        Find Location
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Contact -->
+
+            <div class="col-12 col-sm-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+                        📞
+                    </div>
+
+                    <h5>
+                        Contact
+                    </h5>
+
+                    <p>
+                        Contact ePolice Seva for assistance.
+                    </p>
+
+                    <a href="/contact" class="btn btn-primary rounded-pill px-4">
+                        Contact Us
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================= -->
+<!-- EMERGENCY BANNER -->
+<!-- ========================================================= -->
+
+<div class="container">
+
+    <div class="emergency-box">
+
+        <h2>
+            🚨 Need Immediate Police Assistance?
+        </h2>
+
+        <p>
+            Use the Emergency service to request quick police assistance.
+        </p>
+
+        <a href="/emergency" class="emergency-btn">
+            🚔 Open Emergency Service
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- LIVE LOCATION -->
+<!-- ========================================================= -->
+
+<div class="container">
+
+    <div class="map-box">
+
+        <div class="location-header">
+
+            <div class="location-icon">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+
+                    <path
+                        d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0-6 3 3 0 0 1 0 6" />
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h5 class="text-white mb-1">
+                    📍 Your Current Location
+                </h5>
+
+                <p id="locationText">
+                    Checking your location...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <p id="accuracyText"></p>
+
+
+        <button id="enableLocationBtn">
+            📍 Enable Location
+        </button>
+
+
+        <div id="map"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- AREA / POLICE SERVICES -->
+<!-- ========================================================= -->
+
+<section class="area-section">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Area & Police Services
+        </h2>
+
+        <p class="section-subtitle">
+            Find useful services according to your location
+        </p>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="area-card">
+
+                    <div class="area-icon">
+                        📍
+                    </div>
+
+                    <h5>
+                        Your Area
+                    </h5>
+
+                    <p>
+                        Identify your current city, district and state.
+                    </p>
+
+                    <button onclick="showLocationAgain()" class="btn btn-outline-primary rounded-pill">
+                        Detect Location
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="area-card">
+
+                    <div class="area-icon">
+                        👮
+                    </div>
+
+                    <h5>
+                        Police Assistance
+                    </h5>
+
+                    <p>
+                        Access police-related services through the portal.
+                    </p>
+
+                    <a href="/emergency" class="btn btn-outline-danger rounded-pill">
+                        Get Help
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="area-card">
+
+                    <div class="area-icon">
+                        ⚖️
+                    </div>
+
+                    <h5>
+                        Legal Support
+                    </h5>
+
+                    <p>
+                        Explore court and lawyer assistance.
+                    </p>
+
+                    <a href="/court" class="btn btn-outline-primary rounded-pill">
+                        View Services
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="area-card">
+
+                    <div class="area-icon">
+                        📋
+                    </div>
+
+                    <h5>
+                        Complaint Status
+                    </h5>
+
+                    <p>
+                        Track your submitted complaint.
+                    </p>
+
+                    <a href="/status" class="btn btn-outline-primary rounded-pill">
+                        Track Now
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================= -->
+<!-- INFORMATION SECTION -->
+<!-- ========================================================= -->
+
+<section class="info-section">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+
+            <div class="col-6 col-md-3">
+
+                <div class="info-box">
+
+                    <div class="info-number">
+                        🚔
+                    </div>
+
+                    <div class="info-text">
+                        Digital Police Service
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-md-3">
+
+                <div class="info-box">
+
+                    <div class="info-number">
+                        📝
+                    </div>
+
+                    <div class="info-text">
+                        Online Complaint
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-md-3">
+
+                <div class="info-box">
+
+                    <div class="info-number">
+                        📍
+                    </div>
+
+                    <div class="info-text">
+                        Location Support
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-6 col-md-3">
+
+                <div class="info-box">
+
+                    <div class="info-number">
+                        ⚖️
+                    </div>
+
+                    <div class="info-text">
+                        Legal Assistance
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================= -->
+<!-- LEAFLET JS -->
+<!-- ========================================================= -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+    (() => {
+
+        "use strict";
+
+
+        const locationText =
+            document.getElementById("locationText");
+
+        const accuracyText =
+            document.getElementById("accuracyText");
+
+        const enableBtn =
+            document.getElementById("enableLocationBtn");
+
+        const mapDiv =
+            document.getElementById("map");
+
+
+        let map = null;
+        let marker = null;
+        let accuracyCircle = null;
+
+
+        /* ================= MAP ================= */
+
+        function createMapIfNeeded() {
+
+            if (map) return;
+
+            map = L.map("map");
+
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    attribution:
+                        "&copy; OpenStreetMap contributors"
+                }
+            ).addTo(map);
+
+        }
+
+
+        /* ================= UPDATE MAP ================= */
+
+        function updateMapView(
+            lat,
+            lon,
+            accuracy,
+            popupHtml
+        ) {
+
+            mapDiv.style.display = "block";
+
+            createMapIfNeeded();
+
+            map.setView(
+                [lat, lon],
+                16
+            );
+
+
+            if (marker) {
+
+                map.removeLayer(marker);
+
+            }
+
+
+            if (accuracyCircle) {
+
+                map.removeLayer(
+                    accuracyCircle
+                );
+
+            }
+
+
+            marker =
+                L.marker(
+                    [lat, lon]
+                ).addTo(map);
+
+
+            marker
+                .bindPopup(popupHtml)
+                .openPopup();
+
+
+            if (accuracy) {
+
+                accuracyCircle =
+                    L.circle(
+                        [lat, lon],
+                        {
+                            radius: accuracy
+                        }
+                    ).addTo(map);
+
+            }
+
+        }
+
+
+        /* ================= ADDRESS ================= */
+
+        function buildAddressParts(
+            address = {}
+        ) {
+
+            const area =
+                address.suburb ||
+                address.neighbourhood ||
+                address.residential ||
+                address.hamlet ||
+                "";
+
+
+            const city =
+                address.city ||
+                address.town ||
+                address.village ||
+                address.municipality ||
+                "";
+
+
+            const district =
+                address.state_district ||
+                address.county ||
+                "";
+
+
+            const state =
+                address.state || "";
+
+
+            const country =
+                address.country || "";
+
+
+            const parts = [];
+
+
+            if (area)
+                parts.push(area);
+
+
+            if (city && city !== area)
+                parts.push(city);
+
+
+            if (
+                district &&
+                district !== city &&
+                district !== area
+            )
+                parts.push(district);
+
+
+            if (state)
+                parts.push(state);
+
+
+            if (country)
+                parts.push(country);
+
+
+            return parts;
+
+        }
+
+
+        /* ================= REVERSE GEOCODING ================= */
+
+        async function reverseGeocode(
+            lat,
+            lon
+        ) {
+
+            const url =
+                `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1&zoom=18`;
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Location API failed"
+                );
+
+            }
+
+
+            return response.json();
+
+        }
+
+
+        /* ================= MAIN LOCATION ================= */
+
+        function showUserLocation() {
+
+            if (!navigator.geolocation) {
+
+                locationText.innerHTML =
+                    "❌ Geolocation is not supported by your browser.";
+
+                return;
+
+            }
+
+
+            locationText.innerHTML =
+                "📍 Getting your accurate location...";
+
+
+            accuracyText.innerHTML =
+                "";
+
+
+            enableBtn.style.display =
+                "none";
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                async (position) => {
+
+                    const {
+                        latitude: lat,
+                        longitude: lon,
+                        accuracy
+                    } = position.coords;
+
+
+                    try {
+
+                        const data =
+                            await reverseGeocode(
+                                lat,
+                                lon
+                            );
+
+
+                        const parts =
+                            buildAddressParts(
+                                data.address
+                            );
+
+
+                        const readable =
+                            parts.length
+                                ? parts.join(", ")
+                                : "Location found";
+
+
+                        locationText.innerHTML =
+                            `📍 <b>${readable}</b>`;
+
+
+                        accuracyText.innerHTML =
+                            `Accuracy: approximately ${Math.round(accuracy)} meters`;
+
+
+                        updateMapView(
+
+                            lat,
+                            lon,
+                            accuracy,
+
+                            `<b>📍 You are here</b><br>${readable}`
+
+                        );
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Reverse geocoding error:",
+                            error
+                        );
+
+
+                        locationText.innerHTML =
+                            `📍 Location found<br>
+                        <small>
+                        Lat: ${lat.toFixed(6)},
+                        Lon: ${lon.toFixed(6)}
+                        </small>`;
+
+
+                        accuracyText.innerHTML =
+                            `Accuracy: approximately ${Math.round(accuracy)} meters`;
+
+
+                        updateMapView(
+
+                            lat,
+                            lon,
+                            null,
+                            "📍 You are here"
+
+                        );
+
+                    }
+
+                },
+
+
+                (error) => {
+
+                    console.error(
+                        "Geolocation error:",
+                        error
+                    );
+
+
+                    const messages = {
+
+                        1:
+                            "❌ Location permission denied.",
+
+                        2:
+                            "❌ Location unavailable.",
+
+                        3:
+                            "⏳ Location request timed out."
+
+                    };
+
+
+                    locationText.innerHTML =
+                        messages[error.code] ||
+                        "❌ Unable to get your location.";
+
+
+                    accuracyText.innerHTML =
+                        "";
+
+
+                    enableBtn.style.display =
+                        "inline-block";
+
+
+                    mapDiv.style.display =
+                        "none";
+
+                },
+
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 0
+                }
+
+            );
+
+        }
+
+
+        /* ================= BUTTON ================= */
+
+        enableBtn.addEventListener(
+            "click",
+            () => {
+
+                locationText.innerHTML =
+                    "📍 Getting your location...";
+
+                showUserLocation();
+
+            }
+        );
+
+
+        /* ================= LOAD ================= */
+
+        window.addEventListener(
+            "load",
+            showUserLocation
+        );
+
+
+        /* ================= GLOBAL FUNCTION ================= */
+
+        window.showLocationAgain =
+            function () {
+
+                document
+                    .querySelector(".map-box")
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+
+                showUserLocation();
+
+            };
+
+
+    })();
+
+</script>
+
+{% endblock body %}

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Details</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+
+        .navbar {
+            background: #0a1f44;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-title {
+            color: #0a1f44;
+            font-weight: 700;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .info-value {
+            color: #111;
+        }
+
+        .description-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            white-space: pre-wrap;
+        }
+
+        .back-btn {
+            background: #0a1f44;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: #12366f;
+            color: white;
+        }
+
+        .update-btn {
+            background: #0a1f44;
+            color: white;
+            border: none;
+        }
+
+        .update-btn:hover {
+            background: #12366f;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar navbar-dark">
+
+        <div class="container">
+            <div class="mb-3">
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4" onclick="history.back()">
+                    ← Back
+                </button>
+            </div>
+
+            <span class="navbar-brand fw-bold">
+                🛡️ ePolice Seva — Staff
+            </span>
+
+            <a href="/logout" class="btn btn-outline-light">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container py-5">
+
+        <!-- BACK BUTTON -->
+
+        <div class="mb-4">
+
+            <a href="/staff/complaints" class="btn back-btn">
+                ← Back to Complaints
+            </a>
+
+        </div>
+
+
+        <!-- SUCCESS / ERROR MESSAGES -->
+
+        {% if messages %}
+
+        {% for message in messages %}
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+            {{ message }}
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+
+        <!-- COMPLAINT CARD -->
+
+        <div class="detail-card">
+
+            <h2 class="page-title mb-4">
+                📋 Complaint Details
+            </h2>
+
+
+            <!-- COMPLAINT ID -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 info-label">
+                    Complaint ID
+                </div>
+
+                <div class="col-md-8 info-value">
+
+                    <strong>
+                        {{ complaint.complaint_id }}
+                        <!--Model ke Complaint ke andar jo id value hai, usko HTML page par dikhao.-->
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 info-label">
+                    Name
+                </div>
+
+                <div class="col-md-8 info-value">
+                    {{ complaint.name }}
+                    <!--Model ke Complaint ke andar jo name value hai, usko HTML page par dikhao.-->
+                </div>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 info-label">
+                    Email
+                </div>
+
+                <div class="col-md-8 info-value">
+                    {{ complaint.email }}
+                    <!--Model ke Complaint ke andar jo email value hai, usko HTML page par dikhao.-->
+                </div>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 info-label">
+                    Phone
+                </div>
+
+                <div class="col-md-8 info-value">
+                    {{ complaint.phone }}
+                    <!--Model ke Complaint ke andar jo phone value hai, usko HTML page par dikhao.-->
+                </div>
+
+            </div>
+
+
+            <!-- COMPLAINT TYPE -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 info-label">
+                    Complaint Type
+                </div>
+
+                <div class="col-md-8 info-value">
+
+                    {{ complaint.get_complain_type_display }}
+                    <!--Model ke Complaint ke andar jo compalin type hai, usko HTML page par dikhao.-->
+
+                </div>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 info-label">
+                    Location
+                </div>
+
+                <div class="col-md-8 info-value">
+                    {{ complaint.location }}
+                    <!--Model ke Complaint ke andar jo location hai, usko HTML page par dikhao.-->
+                </div>
+
+            </div>
+
+
+            <!-- INCIDENT DATE -->
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 info-label">
+                    Incident Date
+                </div>
+
+                <div class="col-md-8 info-value">
+                    {{ complaint.incident_date }}
+                    <!--Model ke Complaint ke andar jo data hai, usko HTML page par dikhao.-->
+                </div>
+
+            </div>
+
+
+            <!-- STATUS UPDATE -->
+
+            <div class="row mb-4">
+
+                <div class="col-md-4 info-label">
+                    Complaint Status
+                </div>
+
+                <div class="col-md-8">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="input-group">
+                            <!-- user choose option  -->
+                            <select name="status" class="form-select">
+
+                                <option value="Submitted">
+                                    Submitted
+                                </option>
+
+                                <option value="Under Review">
+                                    Under Review
+                                </option>
+
+                                <option value="Investigation">
+                                    Investigation
+                                </option>
+
+                                <option value="Resolved">
+                                    Resolved
+                                </option>
+
+                                <option value="Rejected">
+                                    Rejected
+                                </option>
+
+                            </select>
+
+                            <button type="submit" class="btn update-btn">
+
+                                Update Status
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- CURRENT STATUS -->
+
+            <div class="row mb-4">
+
+                <div class="col-md-4 info-label">
+                    Current Status
+                </div>
+
+                <div class="col-md-8">
+
+                    <span class="badge bg-primary">
+                        {{ complaint.status }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="mt-4">
+
+                <div class="info-label mb-2">
+                    Complaint Description
+                </div>
+
+                <div class="description-box">
+
+                    {{ complaint.description }}
+                    <!--Model ke Complaint ke andar jo description hai, usko HTML page par dikhao.-->
+                </div>
+
+            </div>
+
+
+            <!-- EVIDENCE -->
+
+            <div class="mt-4">
+
+                <div class="info-label mb-2">
+                    Evidence
+                </div>
+
+
+                {% if complaint.evidence %}
+                <!--Model ke Complaint ke andar jo evidence value hai, usko HTML page par dikhao.-->
+
+                <a href="{{ complaint.evidence.url }}" target="_blank" class="btn btn-outline-primary">
+
+                    📎 View Evidence
+
+                </a>
+
+                {% else %}
+
+                <span class="text-muted">
+                    No evidence uploaded
+                </span>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOTSTRAP JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+</body>
+
+</html>

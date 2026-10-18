@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}
+        {% endblock %}ePolice seva</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- =============== navigation template ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#0a1f44;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><b>ePolice Seva</b></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- LEFT SIDE MENU -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/complain">Complaint</a>
+                    </li>
+
+                    <!-- Emergany button -->
+                    <style>
+                        .emergency-link {
+                            transition: all 0.3s ease;
+                        }
+
+                        .emergency-link:hover {
+                            color: white !important;
+                            background-color: #dc3545;
+                            border-radius: 10px;
+                            padding-left: 12px;
+                            padding-right: 12px;
+                        }
+                    </style>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger fw-bold emergency-link" href="/emergency">
+                            Emergency
+                        </a>
+                    </li>
+                    <!-- End Emergancy button  -->
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/court">Court / Vakil</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/status">Complaint Status</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/term&condition">Terms & Condition</a>
+                    </li>
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+
+                    <!-- Only show staff navbar -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/staff/complaints">
+                            👮 Staff Complaints
+                        </a>
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+
+                <!-- RIGHT SIDE BUTTONS -->
+                <div class="d-flex align-items-center">
+
+                    {% if request.user.is_authenticated %}
+
+                    <!-- User profile -->
+
+                    {% if request.user.is_staff %}
+
+                    <a href="{% url 'staff_profile' %}" class="profile-nav-link">
+                        👮
+                        <span class="text-white me-3">
+                            You:
+                            {% if request.user.first_name %}
+                            {{ request.user.first_name }}
+                            {% else %}
+                            {{ request.user.username }}
+                            {% endif %}
+                        </span>
+                    </a>
+
+                    {% else %}
+
+                    <a href="{% url 'profile' %}" class="profile-nav-link">
+                        👤
+                        <span class="text-white me-3">
+                            You:
+                            {% if request.user.first_name %}
+                            {{ request.user.first_name }}
+                            {% else %}
+                            {{ request.user.username }}
+                            {% endif %}
+                        </span>
+                    </a>
+
+                    {% endif %}
+
+
+                    <!-- Logout -->
+
+                    <a href="{% url 'logout' %}" class="btn btn-danger">
+                        Logout
+                    </a>
+
+
+                    {% else %}
+
+                    <!-- LOGIN / REGISTER DROPDOWN -->
+
+                    <div class="dropdown">
+
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+
+                            Login / Register
+
+                        </button>
+
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <!-- CITIZEN -->
+
+                            <li>
+                                <h6 class="dropdown-header">
+                                    👤 Citizen
+                                </h6>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{% url 'user_login' %}">
+                                    🔐 Citizen Login
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{% url 'user_register' %}">
+                                    📝 Citizen Register
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+
+                            <!-- STAFF -->
+
+                            <li>
+                                <h6 class="dropdown-header">
+                                    👮 Staff
+                                </h6>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{% url 'staff_login' %}">
+                                    🔐 Staff Login
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <!-- BOOTSTRAP JS (VERY IMPORTANT) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block body %}
+    {% endblock body %}
+    <!-- ================Footer of Base =================== -->
+    <footer class="footer">
+        <div class="brand">🚔 ePolice Seva Portal</div>
+        <div class="links">
+            <a href="#">Privacy Policy</a>
+            <a href="/term&condition">Terms &amp; Conditions</a>
+            <a href="/contact">Contact</a>
+            <span>© 2026</span>
+        </div>
+    </footer>
+    <style>
+        /* ---------- FOOTER ---------- */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+
+            background: white;
+
+            border-top: 2px solid #dce3ed;
+            padding: 15px 20px;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem 2rem;
+
+            color: #2d465e;
+            font-size: 0.95rem;
+        }
+
+
+        /* Footer ki wajah se page ka last content hide na ho */
+        body {
+            padding-bottom: 90px;
+        }
+
+
+        .footer :hover {
+            border-top: 2px solid #223356;
+
+        }
+
+        .footer .brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            letter-spacing: -0.2px;
+        }
+
+        .footer .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 2rem;
+        }
+
+        .footer .links a {
+            color: #1f3c59;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+
+        .footer .links a:hover {
+            color: var(--primary-dark);
+            border-bottom-color: var(--primary-dark);
+        }
+
+        /* Mobile */
+        @media (max-width: 450px) {
+
+            .footer {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                padding: 10px 8px;
+                gap: 5px;
+
+                font-size: 12px;
+            }
+
+            .footer .brand {
+                font-size: 14px;
+            }
+
+            .footer .links {
+                justify-content: center;
+                gap: 8px 12px;
+            }
+
+            /* Mobile me footer ke liye extra space */
+            body {
+                padding-bottom: 110px;
+            }
+        }
+    </style>
+    <!-- ================= End Footer ==================== -->
+</body>
+
+</html>

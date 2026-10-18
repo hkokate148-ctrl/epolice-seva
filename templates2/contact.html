@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Contact:
+{% endblock %}
+
+{% block body %}
+
+<!-- Message requests -->
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+{% endif %}
+<!-- ================== Sliding window image Contect =====================-->
+<div class="container-fluid px-0 position-relative">
+
+    <img src="/static/img/contect_img.jpg" class="d-block w-100" alt="Contact Us">
+
+    <h3 class="contact-heading">
+        Contact Us
+    </h3>
+    <p>
+    <p class="contact-p-heading">We are here to help you. Feel free to contact us anytime.</p>
+    </p>
+
+</div>
+<!--================== End Sliding image ================-->
+
+<!--================== form code =====================-->
+<div class="container my-5 py-4">
+    <form method="post" action="/contact">
+
+        {% csrf_token %}<!-- for form  protectd form-->
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="number" class="form-label">Phone number</label>
+            <input type="number" class="form-control" id="phone" name="phone" placeholder="Enter your phone number"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">
+                Tell me about what you want to contact me for...
+            </label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<!-- ================== end code =====================-->
+<style>
+    .contact-heading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #03021e;
+        font-family: math;
+        background-color: #ffffffa8;
+        padding: 10px 25px;
+        border-radius: 9px;
+        text-align: center;
+    }
+
+    .contact-p-heading {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fcfcff;
+        font-family: math;
+        background-color: #000000a8;
+        padding: 10px 25px;
+        border-radius: 9px;
+        text-align: center;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width:768px) {
+        .contact-heading {
+            top: 30%;
+            font-size: 18px;
+            padding: 8px 18px;
+        }
+    }
+</style>
+<script>
+    document.getElementById("contactForm").addEventListener("submit", function (event) {
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+        let description = document.getElementById("description").value.trim();
+        if (name === "" || email === "" || phone === "" || description === "") {
+            event.preventDefault(); alert("Please fill all fields before submitting.");
+        }
+    });
+</script>
+
+{% endblock body %}

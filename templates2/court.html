@@ -1,0 +1,463 @@
+{% extends "base.html" %}
+
+{% block title %}Court & Vakil - ePolice Seva{% endblock %}
+
+{% block body %}
+
+<style>
+    .court-header {
+        text-align: center;
+        margin: 35px 0;
+    }
+
+    .court-header h1 {
+        color: #0a1f44;
+        font-weight: 700;
+    }
+
+    .service-card {
+        border: none;
+        border-radius: 18px;
+        height: 100%;
+        transition: 0.3s;
+    }
+
+    .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .service-icon {
+        font-size: 45px;
+        margin-bottom: 15px;
+    }
+
+    .section-title {
+        color: #0a1f44;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .legal-item {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .legal-item:last-child {
+        border-bottom: none;
+    }
+</style>
+
+
+<div class="container py-4">
+
+
+    <!-- Header -->
+    <div class="court-header">
+
+        <h1>⚖️ Court & Vakil Services</h1>
+
+        <p class="text-muted">
+            Court information, lawyer services and basic legal guidance
+        </p>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- COURT INFORMATION -->
+    <!-- ========================= -->
+
+    <h2 class="section-title">
+        🏛️ Court Information
+    </h2>
+
+    <div class="row g-4 mb-5">
+
+
+        <!-- District Court -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card shadow p-4 text-center">
+
+                <div class="service-icon">
+                    🏛️
+                </div>
+
+                <h4>District Court</h4>
+
+                <p class="text-muted">
+                    Get information about District Courts,
+                    court services and case-related information.
+                </p>
+
+                <a href="https://ecourts.gov.in/ecourts2.0//?p=dist_court&app_token=" target="_blank"
+                    class="btn btn-primary">
+                    Visit eCourts
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- High Court -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card shadow p-4 text-center">
+
+                <div class="service-icon">
+                    ⚖️
+                </div>
+
+                <h4>High Court</h4>
+
+                <p class="text-muted">
+                    Access High Court case status,
+                    orders and other court services.
+                </p>
+
+                <a href="https://ecourts.gov.in/ecourts2.0//?p=about_us/highcourts&app_token=2342aeb4aa0a2526342b3375bca6782aceb2b6d9e39ccddf2c721ee664592f80"
+                    target="_blank" class="btn btn-primary">
+                    High Court Services
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Court Location -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card shadow p-4 text-center">
+
+                <div class="service-icon">
+                    📍
+                </div>
+
+                <h4>Court Location</h4>
+
+                <p class="text-muted">
+                    Find the location of a court through
+                    official court services.
+                </p>
+
+                <a href="https://ecourts.gov.in/" target="_blank" class="btn btn-primary">
+                    Find Court
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Court Working -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card shadow p-4 text-center">
+
+                <div class="service-icon">
+                    🕐
+                </div>
+
+                <h4>Court Information</h4>
+
+                <p class="text-muted">
+                    View court services, cause lists and
+                    other official information.
+                </p>
+
+                <a href="https://ecourts.gov.in/" target="_blank" class="btn btn-primary">
+                    View Information
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Case Status -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card shadow p-4 text-center">
+
+                <div class="service-icon">
+                    🔎
+                </div>
+
+                <h4>Case Status</h4>
+
+                <p class="text-muted">
+                    Search case status using available
+                    official eCourts search options.
+                </p>
+
+                <a href="https://services.ecourts.gov.in/" target="_blank" class="btn btn-success">
+                    Search Case
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Official Website -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card service-card shadow p-4 text-center">
+
+                <div class="service-icon">
+                    🌐
+                </div>
+
+                <h4>Official Court Website</h4>
+
+                <p class="text-muted">
+                    Open the official eCourts website
+                    for court-related services.
+                </p>
+
+                <a href="https://ecourts.gov.in/" target="_blank" class="btn btn-dark">
+                    Open Website
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- VAKIL / LAWYER -->
+    <!-- ========================= -->
+
+    <h2 class="section-title">
+        👨‍⚖️ Vakil / Lawyer
+    </h2>
+
+    <div class="card shadow p-4 mb-5">
+
+        <h4 class="fw-bold">
+            🔎 Search Lawyer
+        </h4>
+
+        <p class="text-muted">
+            Search can be connected to a verified lawyer
+            database in the future.
+        </p>
+
+
+        <div class="row g-3">
+
+            <div class="col-md-5">
+
+                <input type="text" id="lawyerSearch" class="form-control" placeholder="Lawyer name">
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <select id="specialization" class="form-select">
+
+                    <option value="">
+                        Select Specialization
+                    </option>
+
+                    <option value="criminal">
+                        Criminal Law
+                    </option>
+
+                    <option value="civil">
+                        Civil Law
+                    </option>
+
+                    <option value="family">
+                        Family Law
+                    </option>
+
+                    <option value="cyber">
+                        Cyber Law
+                    </option>
+
+                    <option value="property">
+                        Property Law
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <button class="btn btn-primary w-100" onclick="searchLawyer()">
+
+                    🔎 Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div id="lawyerResult" class="mt-3">
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- LEGAL HELP -->
+    <!-- ========================= -->
+
+    <h2 class="section-title">
+        📄 Legal Help
+    </h2>
+
+    <div class="card shadow p-3 mb-5">
+
+
+        <!-- FIR -->
+        <div class="legal-item">
+
+            <h5>📋 FIR ke baad basic process</h5>
+
+            <p class="text-muted mb-0">
+                FIR ke baad investigation, evidence collection
+                aur legal/court proceedings ho sakti hain.
+                Exact process case ke facts par depend karta hai.
+            </p>
+
+        </div>
+
+
+        <!-- Bail -->
+        <div class="legal-item">
+
+            <h5>⚖️ Bail kya hoti hai?</h5>
+
+            <p class="text-muted mb-0">
+                Bail ek legal process hai jisme applicable
+                circumstances aur law ke according accused ko
+                custody se release kiya ja sakta hai.
+            </p>
+
+        </div>
+
+
+        <!-- Complaint vs FIR -->
+        <div class="legal-item">
+
+            <h5>📝 Complaint aur FIR me difference</h5>
+
+            <p class="text-muted mb-0">
+                Complaint kisi authority ko di gayi information/
+                grievance ho sakti hai. FIR police ke dwara
+                cognizable offence ki information record karne
+                ki specific process hai.
+            </p>
+
+        </div>
+
+
+        <!-- Court Process -->
+        <div class="legal-item">
+
+            <h5>🏛️ Court me case ka basic process</h5>
+
+            <p class="text-muted mb-0">
+                Case ke type ke according filing, hearings,
+                evidence, arguments aur order/judgment jaise
+                stages ho sakte hain.
+            </p>
+
+        </div>
+
+
+        <!-- Documents -->
+        <div class="legal-item">
+
+            <h5>📁 Important Documents</h5>
+
+            <p class="text-muted mb-0">
+                Case ke according FIR copy, identification
+                documents, notices, relevant evidence aur
+                court documents ki zarurat ho sakti hai.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- FREE LEGAL AID -->
+    <!-- ========================= -->
+
+    <div class="card shadow p-4 mb-5 text-center">
+
+        <div class="service-icon">
+            🧑‍⚖️
+        </div>
+
+        <h3>
+            Free Legal Aid
+        </h3>
+
+        <p class="text-muted">
+            Eligible persons can seek free legal aid
+            through NALSA and Legal Services Authorities.
+        </p>
+
+        <a href="https://nalsa.gov.in/legal-aid/" target="_blank" class="btn btn-success">
+
+            ⚖️ NALSA Legal Aid
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    function searchLawyer() {
+
+        let name =
+            document.getElementById("lawyerSearch").value.trim();
+
+        let specialization =
+            document.getElementById("specialization").value;
+
+        let result =
+            document.getElementById("lawyerResult");
+
+
+        if (name === "" && specialization === "") {
+
+            result.innerHTML =
+                '<div class="alert alert-warning">' +
+                'Please enter a lawyer name or select a specialization.' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        result.innerHTML =
+            '<div class="alert alert-info">' +
+            '🔎 Lawyer search will be connected to the verified lawyer database.' +
+            '</div>';
+
+    }
+
+</script>
+
+{% endblock %}
